@@ -571,7 +571,7 @@
 
   <Group>
     <GroupName>Middlewares/Control</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -582,7 +582,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\face_protocol.c</PathWithFileName>
+      <PathWithFileName>..\Middlewares\Control\Src\face_protocol.c</PathWithFileName>
       <FilenameWithoutPath>face_protocol.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -594,7 +594,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\face_tracker.c</PathWithFileName>
+      <PathWithFileName>..\Middlewares\Control\Src\face_tracker.c</PathWithFileName>
       <FilenameWithoutPath>face_tracker.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -606,7 +606,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\BSP\Src\pid.c</PathWithFileName>
+      <PathWithFileName>..\Middlewares\Control\Src\pid.c</PathWithFileName>
       <FilenameWithoutPath>pid.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

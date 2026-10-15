@@ -21,7 +21,10 @@ face_tracker/
 ├── src/main.cpp                         # 上位机全部业务代码
 ├── servo/                               # STM32下位机，Windows/Keil构建
 │   ├── Core/                            # 初始化与主循环
-│   ├── BSP/                             # 协议、跟踪、PID、舵机、OLED、按键
+│   ├── BSP/                             # 串口接收、舵机、OLED、按键及控制参数
+│   ├── Middlewares/Control/             # 协议解析、人脸跟踪和PID控制
+│   │   ├── Inc/                         # face_protocol.h、face_tracker.h、pid.h
+│   │   └── Src/                         # 对应的协议、跟踪和PID实现
 │   ├── Drivers/                         # HAL和CMSIS，构建必需
 │   ├── MDK-ARM/servo.uvprojx             # Keil工程入口
 │   ├── servo.ioc                        # CubeMX配置
@@ -362,13 +365,26 @@ v13将V4L2采集缓冲由1改为2，解决了本次采集只有15帧的瓶颈。
 
 ### Windows环境与构建入口
 
-1. 在Windows取得完整仓库，保留 `servo/Core`、`BSP`、`Drivers`、`MDK-ARM` 的相对位置。
+1. 在Windows取得完整仓库，保留 `servo/Core`、`BSP`、`Middlewares`、`Drivers`、`MDK-ARM` 的相对位置。
 2. 配置Keil μVision、ARM Compiler 5.06 update 6，以及工程指定的 `Keil.STM32F1xx_DFP.2.4.1` 设备包。当前工程设备为 `STM32F103C8`，使用C99；ARM Compiler 6不能仅凭已安装就当作当前工程的等价环境。
 3. 打开 `servo/MDK-ARM/servo.uvprojx`，选择 `servo` 目标，执行Rebuild。
 4. 生成的固件为 `servo/MDK-ARM/servo/servo.hex`，调试产物为同目录的 `servo.axf`。整个生成目录已忽略，不随源码提交。
 5. 连接ST-LINK，确认目标供电及调试器配置后执行Download，并检查下载与校验结果。编译成功不等于已经烧录成功。
 
 工程引用的源码与头文件目录采用相对路径，整体克隆到其他盘符或目录即可保留这些引用。Keil、编译器、设备包及调试器驱动仍需在自己的电脑安装；它们不包含在仓库里。
+
+### 下位机模块分层
+
+| 层次 | 路径 | 职责 |
+| --- | --- | --- |
+| 应用与外设配置 | `servo/Core/` | main.c启动与调度，以及GPIO、I2C、TIM、USART和中断配置 |
+| 板级支持 | `servo/BSP/` | 串口字节接收与错误恢复、舵机PWM接口、OLED和按键驱动；`Inc/tracking_config.h`保留控制参数 |
+| 控制中间件 | `servo/Middlewares/Control/` | `face_protocol`负责帧校验和重同步，`face_tracker`负责状态与双轴平滑跟踪，`pid`负责PID计算 |
+| 芯片支持 | `servo/Drivers/` | STM32 HAL与CMSIS支持代码 |
+
+协议解析、人脸跟踪和PID的头文件、源文件已从 `BSP/Inc`、`BSP/Src` 移至 `Middlewares/Control/Inc`、`Middlewares/Control/Src`。此次调整只改变文件归属与工程路径，控制算法、参数、串口协议以及OLED、按键和舵机行为不变。
+
+Keil工程中，这三个源文件归入 `Middlewares/Control` 分组，引用路径为 `../Middlewares/Control/Src/`，C头文件搜索路径包含 `../Middlewares/Control/Inc`。`Core/Inc`、`BSP/Inc`等原有包含目录仍需保留。控制中间件通过 `tracking_config.h` 使用BSP中的参数，通过应用层与串口及舵机接口衔接；无需因文件移动改动现有的头文件名称或函数接口。
 
 ### 当前下位机硬件配置
 
@@ -409,9 +425,9 @@ PID输出为角速度，按实际经过时间更新角度，结合加速度限�
 
 串口中断只缓存字节及接收时间，主循环解析CRC和字段、取得最新完整帧并执行控制。OLED显示状态、命令角度和坐标，I2C故障时停止刷新；按键当前只扫描状态，没有在主循环分配手动调角或归位动作。
 
-Keil调试时可观察 `tracker.state`、`tracker.pan/tilt.angle` 及 `g_serial_stats` 中的 `good_frames`、`bad_frames`、`uart_errors`、`ring_overflows`。保留CubeMX的USER CODE区域，重新生成后检查BSP文件仍在工程中，避免在串口中断中加入显示、打印或PID计算。
+Keil调试时可观察 `tracker.state`、`tracker.pan/tilt.angle` 及 `g_serial_stats` 中的 `good_frames`、`bad_frames`、`uart_errors`、`ring_overflows`。保留CubeMX的USER CODE区域，重新生成后检查BSP与 `Middlewares/Control` 的源文件仍在工程中，且头文件搜索路径包含对应的Inc目录，避免在串口中断中加入显示、打印或PID计算。
 
-上下位机均采用第6节的协议v1。更改线格式、坐标方向或失效行为时同步更新本README，并成对验证两个程序。本次仅检查了Keil工程引用文件是否存在，尚未在此Linux环境执行Keil构建或重新烧录。
+上下位机均采用第6节的协议v1。更改线格式、坐标方向或失效行为时同步更新本README，并成对验证两个程序。移动源码后应检查工程引用、包含路径及重复文件，再执行Rebuild；文件路径存在不等于编译通过或已经完成烧录验证。
 
 ## 12. 联调验收
 

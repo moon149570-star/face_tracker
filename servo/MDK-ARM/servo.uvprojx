@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F103xB</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../BSP/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc;../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F1xx/Include;../Drivers/CMSIS/Include;../BSP/Inc;..\Middlewares\Control\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -659,17 +659,17 @@
             <File>
               <FileName>face_protocol.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Src\face_protocol.c</FilePath>
+              <FilePath>..\Middlewares\Control\Src\face_protocol.c</FilePath>
             </File>
             <File>
               <FileName>face_tracker.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Src\face_tracker.c</FilePath>
+              <FilePath>..\Middlewares\Control\Src\face_tracker.c</FilePath>
             </File>
             <File>
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\BSP\Src\pid.c</FilePath>
+              <FilePath>..\Middlewares\Control\Src\pid.c</FilePath>
             </File>
           </Files>
         </Group>
