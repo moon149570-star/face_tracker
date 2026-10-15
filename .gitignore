@@ -1,0 +1,31 @@
+# CMake构建目录与产物
+/build/
+/out/
+/build-*/
+/cmake-build-*/
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/Makefile
+*.o
+*.a
+*.so
+*.so.*
+/camera_probe
+
+# 本地编辑器与用户配置
+/.vscode/
+/.idea/
+/CMakeUserPresets.json
+.DS_Store
+Thumbs.db
+
+# 旧代码备份、临时文件及调试输出
+*.before_*
+*.bak
+*~
+*.swp
+*.swo
+*.log
+/debug*.jpg
+/debug*.png

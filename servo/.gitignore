@@ -1,0 +1,62 @@
+# Keil生成目录；移动到firmware/后仍然适用。
+**/MDK-ARM/servo/
+**/MDK-ARM/Objects/
+**/MDK-ARM/Listings/
+
+# 编译中间文件、依赖和链接报告。
+*.o
+*.obj
+*.axf
+*.crf
+*.d
+*.lst
+*.map
+*.dep
+*.lnp
+
+# Keil个人界面状态；保留.uvprojx、.uvoptx、启动汇编和自定义.sct。
+*.uvguix.*
+*.uvgui.*
+
+# Linux C++ / CMake生成文件；保留CMakeLists.txt和CMakePresets.json。
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+compile_commands.json
+CMakeUserPresets.json
+
+# 本地IDE配置、Keil助手日志；不整体忽略可共享的.vscode目录。
+.vs/
+.idea/
+*.suo
+*.user
+*.log
+*.log.lock
+**/.vscode/c_cpp_properties.json
+
+# 本地凭据配置；配置示例可以提交。
+.env
+.env.*
+!.env.example
+!.env.template
+.ssh/
+id_rsa
+id_ed25519
+
+# 缓存、编辑器临时文件和操作系统杂项。
+.cache/
+__pycache__/
+*.pyc
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 不整体忽略Drivers、RTE、DebugConfig、字库、模型或二进制依赖。
+# 工程内的源码、.ioc、README和协议文档正常提交。
